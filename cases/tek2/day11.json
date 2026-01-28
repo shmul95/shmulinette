@@ -1,0 +1,47 @@
+[
+  {
+    "exercise": "Exercise 00 - The Beginning",
+    "command": "cargo run",
+    "expected_output": "z"
+  },
+  {
+    "exercise": "Exercise 01 - Flying Sequence",
+    "command": "cargo run",
+    "expected_output": "Wrong flying sequence, go back to the lab !\n\nLiftoff in 5...\nLiftoff in 4...\nLiftoff in 3...\nMain engine ignition\nLiftoff in 2...\nLiftoff in 1...\nLiftoff ! We have liftoff !\nT+10 : Everything is fine\nT+20 : Everything is fine\nT+20 : Main engine cutoff\nT+21 : Main engine decoupling\nT+30 : Secondary engines ignition\nT+30 : Everything is fine\nT+40 : Everything is fine\nT+50 : Everything is fine\nT+60 : Everything is fine\nT+65 : Secondary engines cutoff. We're in orbit !\n\nLiftoff in 10...\nLiftoff in 9...\nLiftoff in 8...\nLiftoff in 7...\nLiftoff in 6...\nLiftoff in 5...\nLiftoff in 4...\nMain engine ignition\nLiftoff in 3...\nLiftoff in 2...\nLiftoff in 1...\nLiftoff ! We have liftoff !\nT+10 : Everything is fine\nT+20 : Everything is fine\nT+30 : Everything is fine\nT+40 : Everything is fine\nT+50 : Everything is fine\nT+60 : Everything is fine\nT+70 : Everything is fine\nT+80 : Everything is fine\nT+90 : Everything is fine\nT+100 : Everything is fine\nT+110 : Everything is fine\nT+120 : Everything is fine\nT+130 : Everything is fine\nT+140 : Everything is fine\nT+149 : Main engine cutoff\nT+150 : Main engine decoupling\nT+150 : Everything is fine\nT+159 : Secondary engines ignition\nT+160 : Everything is fine\nT+170 : Everything is fine\nT+180 : Everything is fine\nT+190 : Everything is fine\nT+194 : Secondary engines cutoff. We're in orbit !"
+  },
+  {
+    "exercise": "Exercise 02 - Survivability",
+    "command": "cargo run",
+    "expected_output": "If the mission can embark 10L of water, 20.3kg of food and the water recycler can do 2 water cycles... With 5 crew members, there is enough water for 2 day(s) and enough food for 8 day(s).\nSurvivable days: 2\nIf the mission can embark 14L of water, 56.3kg of food and the water recycler can do 10 water cycles... With 7 crew members, there is enough water for 10 day(s) and enough food for 16 day(s).\nSurvivable days: 10\nIf the mission can embark 12L of water, 37.5kg of food and the water recycler can do 26 water cycles... With 3 crew members, there is enough water for 52 day(s) and enough food for 25 day(s).\nSurvivable days: 25"
+  },
+  {
+    "exercise": "Exercise 03 - Ownership",
+    "command": "cargo run",
+    "expected_output": "Here is the contract of Paul:\nI am honored to join the space program of The Union and I am willing to risk my life to explore space.\nTherefore, I renounce every right I have to sue The Union in the event of my death.\nSigned: Astronaut Paul\n- And here is the declaration of Astronaut Paul, ready to send to the press:\nI am trilled that I have been chosen in the space program of The Union.\nI will make The Union and my family proud by being a good astronaut, dedicated to the exploration of space.\nCheers and see you on Venus !\nSigned: Astronaut Paul\nNumber of Helmets: 8 Number of Suits: 21\nHere is the contract of Laura:\nI am honored to join the space program of The Union and I am willing to risk my life to explore space.\nTherefore, I renounce every right I have to sue The Union in the event of my death.\nSigned: Astronaut Laura\n- And here is the declaration of Astronaut Laura, ready to send to the press:\nI am trilled that I have been chosen in the space program of The Union.\nI will make The Union and my family proud by being a good astronaut, dedicated to the exploration of space.\nCheers and see you on Venus !\nSigned: Astronaut Laura\nNumber of Helmets: 6 Number of Suits: 19"
+  },
+  {
+    "exercise": "Exercise 04 - Space Inventory",
+    "command": "cargo run",
+    "expected_output": "Paul has a Space Hammer and it's 100 new, he also has a Union Slasher doing a lot of damage: 125 to be precise\nLaura has a Sonic Screwdriver and it's 100 new, she also has a big weapon Union Slicer doing a lot of damage 212\nPaul is using his tool and looses 13% of durability\nPaul's tool has 87 durability left and is worth 10\nPaul is using his tool and looses 13% of durability\nPaul's tool has 74 durability left and is worth 10\nPaul is using his tool and looses 13% of durability\nPaul's tool has 61 durability left and is worth 10\nPaul is using his tool and looses 13% of durability\nPaul's tool has 48 durability left and is worth 10\nPaul is using his tool and looses 13% of durability\nPaul's tool has 35 durability left and is worth 10\nPaul is using his tool and looses 13% of durability\nPaul's tool has 22 durability left and is worth 2.5\nIf we ever want to trade weapons with the locals once we're on Venus we better align our prices\nNow the prices are 270 for Paul's weapon and 270 for Laura's weapon"
+  },
+  {
+    "exercise": "Exercise 05 - Crew Manifest",
+    "command": "cargo run",
+    "expected_output": "Current crew size: 3\nRemoving Brett...\nRemoving Alien...\nFinal crew:\n- Rippley\n- Dallas"
+  },
+  {
+    "exercise": "Exercise 06 - Gravity Well (Example 1)",
+    "command": "cargo run 0 0 uranium 50",
+    "expected_output": "Processing: Uranium (50kg)\nReactor Stats: Energy 2000, Temp 500\nOrbit achieved!"
+  },
+  {
+    "exercise": "Exercise 06 - Gravity Well (Example 2)",
+    "command": "cargo run 0 700 plutonium 2",
+    "expected_output": "Processing: Plutonium (2kg)\nReactor Stats: Energy 180, Temp 820\nCRITICAL MELTDOWN!"
+  },
+  {
+    "exercise": "Exercise 06 - Gravity Well (Example 3)",
+    "command": "cargo run 0 0 oldboot 500",
+    "expected_output": "Processing: OldBoot (500kg)\nReactor Stats: Energy 20, Temp 5\nOut of fuel. We drift into the void..."
+  }
+]
