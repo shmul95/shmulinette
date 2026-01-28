@@ -1,0 +1,7 @@
+[
+  {
+    "name": "Check Rust Version",
+    "command": "rustc --version | cut -d' ' -f1",
+    "result": "rustc"
+  }
+]

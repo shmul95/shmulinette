@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Check Rust Version",
+    "command": "rustc --version | cut -d' ' -f1",
+    "result": "rustc"
+  },
+  {
+    "name": "Simple Arithmetic",
+    "command": "echo $((5 + 5))",
+    "result": "10"
+  },
+  {
+    "name": "Multi-line Output",
+    "command": "echo 'line1\nline2' | tail -n 1",
+    "result": "line2"
+  },
+  {
+    "name": "Date Formatting",
+    "command": "date +%Y > /dev/null && echo 'success'",
+    "result": "success"
+  },
+  {
+    "name": "Quote Handling",
+    "command": "echo \"it works\"",
+    "result": "it works"
+  }
+]
