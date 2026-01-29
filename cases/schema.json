@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["name", "command", "result", "status"],
+    "properties": {
+      "name": { "type": "string" },
+      "command": { "type": "string", "pattern": "^cargo run" },
+      "result": { "type": "string" },
+      "status": { "type": "integer" }
+    }
+  }
+}
