@@ -1,0 +1,29 @@
+name: Case Validator
+on: pull_request
+
+jobs:
+  validate-and-approve:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v22
+      - uses: tj-actions/changed-files@v44
+        id: changed-files
+        with:
+          files: cases/*.json
+
+      - name: Validate JSON Schema
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          nix-shell -p check-jsonschema --run "
+            for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+              check-jsonschema --schemafile cases/schema.json \$file
+            done
+          "
+
+      - name: Auto-Approve
+        # Only approves if ONLY files in cases/ were touched and validation passed
+        if: steps.changed-files.outputs.only_changed == 'true' && success()
+        uses: hmarr/auto-approve-action@v4
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
