@@ -1,79 +1,79 @@
 [
     {
         "name" : "ex00",
-        "command" : "cargo run -p ex00",
+        "command" : "cargo run --quiet -p ex00",
         "result" : "Is \"42.42\" a number ? true\nIs \"42.24.42\" a number ? false\nIs \"yeet\" a number ? false\nIs \" 123.456 \" a number ? true\nIs \"123 .456\" a number ? false\nIs \"-0.4\" a number ? true\nIs \"-.8\" a number ? false\nIs \"8.-6\" a number ? false\nIs \"-8-.6\" a number ? false",
         "status" : 0
     },
     {
         "name" : "ex01",
-        "command" : "cargo run -p ex01",
+        "command" : "cargo run --quiet -p ex01",
         "result" : "--- Safe Analysis ---\nEarth: Teleporting to 0,0,0\nVoid: No destination available\n--- Risky Teleport ---\nMars: Teleporting to 15,22,110\nNow trying to teleport to the Void...",
         "status" : 0
     },
     {
         "name" : "ex02",
-        "command" : "cargo run -p ex02",
+        "command" : "cargo run --quiet -p ex02",
         "result" : "--- Safe Analysis ---\nEarth: Teleporting to 0,0,0\nVoid: No destination available\n--- Risky Teleport ---\nMars: Teleporting to 15,22,110\nNow trying to teleport to the Void...",
         "status" : 101
     },
     {
         "name" : "ex02",
-        "command" : "cargo run -p ex02",
+        "command" : "cargo run --quiet -p ex02",
         "result" : "--- Order 1: Space Omelette ---\nSuccess: The Space Omelette is ready!\n--- Order 2: Corpse Reviver ---\nError: Machine broken\n--- Order 3: Quantum Brownie (Experimental) ---",
         "status" : 101
     },
     {
         "name" : "ex03",
-        "command" : "cargo run -p ex03",
+        "command" : "cargo run --quiet -p ex03",
         "result" : "--- Transmission 1 ---\nOk(\"Hello World\")\n--- Transmission 2 (Sanity Check Fail) ---\nErr(\"Artificial Noise\")",
         "status" : 0
     },
     {
         "name" : "ex04",
-        "command" : "cargo run -p ex04",
+        "command" : "cargo run --quiet -p ex04",
         "result" : "Days: 2013\nRock: Error, Reachable: false, Index: 0\nRock: Europa, Reachable: true, Index: 1\nRock: Venus, Reachable: true, Index: 0",
         "status" : 0
     },
     {
         "name" : "ex05",
-        "command" : "cargo run -p ex05",
+        "command" : "cargo run --quiet -p ex05",
         "result" : "--- Global Inventory ---\nIron: Qty 150, Value 750\nSapphire: Qty 15, Value 8000\nSapphire stock is correct.",
         "status" : 101
     },
     {
         "name" : "ex06",
-        "command" : "cargo run -p ex06",
+        "command" : "cargo run --quiet -p ex06",
         "result" : "--- Flight Schedule ---\nTR-55 to Venus at 1200 is OnTime\nSA-202 to Mars at 1430 is OnTime\nXF-99 to Jupiter at 1800 is Delayed(60)\nER-01 to Earth at 2500 is Cancelled(\"Engine Failure\")",
         "status" : 0
     },
     {
         "name" : "ex07.1",
-        "command" : "cargo run -p ex07 -- ex07/2024_budget ex07/2025_budget \"Tests and Failures\"",
+        "command" : "cargo run --quiet -p ex07 -- ex07/2024_budget ex07/2025_budget \"Tests and Failures\"",
         "result" : "This year the budget of the department of Tests and Failures has been lowered by -11.00%",
         "status" : 0
     },
     {
         "name" : "ex07.2",
-        "command" : "cargo run -p ex07 -- ex07/2024_budget ex07/2025_budget \"Launch and Lunch\"",
+        "command" : "cargo run --quiet -p ex07 -- ex07/2024_budget ex07/2025_budget \"Launch and Lunch\"",
         "result" : "This year the budget of the department of Launch and Lunch has been raised by 1.63%",
         "status" : 0
     },
     {
         "name" : "ex07.3",
-        "command" : "cargo run -p ex07 -- ex07/2024_budget ex07/2025_budget \"Security in Space\"",
+        "command" : "cargo run --quiet -p ex07 -- ex07/2024_budget ex07/2025_budget \"Security in Space\"",
         "result" : "The document is probably not arrived yet...",
         "status" : 84
     },
     {
         "name" : "ex07.4",
-        "command" : "cargo run -p ex07 -- ex07/2024_budget ex07/2025_budget \"Sabers and Lasers\"",
+        "command" : "cargo run --quiet -p ex07 -- ex07/2024_budget ex07/2025_budget \"Sabers and Lasers\"",
         "result" : "Department deleted this year, no comparisons possible !",
         "status" : 0
     },
     {
         "name" : "ex07.5",
-        "command" : "cargo run -p ex07 -- ex07/2024_budget ex07/2025_budget \"Lunar Exploration\"",
+        "command" : "cargo run --quiet -p ex07 -- ex07/2024_budget ex07/2025_budget \"Lunar Exploration\"",
         "result" : "Department created this year, no comparisons possible !",
         "status" : 0
     }
