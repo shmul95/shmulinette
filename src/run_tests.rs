@@ -32,15 +32,33 @@ fn handle_result(test: &TestCase, output: io::Result<Output>) -> Option<String> 
     match output {
         Ok(out) => {
             let actual = String::from_utf8_lossy(&out.stdout).trim().to_string();
-            if actual == test.result.trim() {
+            let exit_status = out.status.code().unwrap_or(-1) as u32;
+            
+            // Check both result and status
+            let result_matches = actual == test.result.trim();
+            let status_matches = exit_status == test.status;
+            
+            if result_matches && status_matches {
                 println!("\x1b[32m[ OK ]\x1b[0m {}", test.name);
                 None
             } else {
                 let stderr = String::from_utf8_lossy(&out.stderr);
-                let msg = format!(
-                    "test '{}' failed:\n  Expected: '{}'\n  Actual:   '{}'\n  Stderr:   '{}'",
-                    test.name, test.result, actual, stderr.trim()
-                );
+                let mut msg = format!("test '{}' failed:\n", test.name);
+                
+                if !result_matches {
+                    msg.push_str(&format!("  Expected output: '{}'\n  Actual output:   '{}'\n", 
+                        test.result, actual));
+                }
+                
+                if !status_matches {
+                    msg.push_str(&format!("  Expected status: {}\n  Actual status:   {}\n", 
+                        test.status, exit_status));
+                }
+                
+                if !stderr.trim().is_empty() {
+                    msg.push_str(&format!("  Stderr: '{}'\n", stderr.trim()));
+                }
+                
                 println!("\x1b[31m[ KO ]\x1b[0m {}", test.name);
                 Some(msg)
             }
