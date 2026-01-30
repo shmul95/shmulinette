@@ -16,15 +16,15 @@ pub struct Shmuli {
 }
 
 #[derive(Debug,Clone)]
-pub enum ArgsOption {
+pub enum CLIArgsOption {
     Only(Vec<String>),
     Exclude(Vec<String>),
 }
 
 #[derive(Debug,Clone)]
-pub struct Args {
+pub struct CLIArgs {
     pub path: Option<String>,
-    pub option: Option<ArgsOption>,
+    pub option: Option<CLIArgsOption>,
 }
 
 #[derive(Debug)]
