@@ -13,7 +13,7 @@ pub fn shmulinette(shmuli: Shmuli, tests: Vec<TestCase>)
 
     match run_tests(tests) {
         Ok(_) => println!("\x1b[32mAll tests pass\x1b[0m"),
-        Err(e) => println!("\x1b[31mSome issues with your code\x1b[0m\n{}", e),
+        Err(e) => println!("\x1b[31mSome issues with your code:\x1b[0m\n{}", e),
     };
 }
 
