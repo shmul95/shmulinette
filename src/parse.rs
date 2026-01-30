@@ -37,8 +37,15 @@ pub fn parse_json(arg: CLIArgs) -> Vec<TestCase>
     let file = File::open(&path)
         .expect("Couldn't open json test file");
     let reader = BufReader::new(file);
-    from_reader(reader)
-        .expect("Json file is malformed")
+    let all_tests : Vec<TestCase> = from_reader(reader)
+        .expect("Json file is malformed");
+    all_tests
+        .into_iter()
+        .filter(|test| arg.option
+            .as_ref()
+            .unwrap()
+            .should_keep(&test.name))
+        .collect()
 }
 
 fn find_path(case: Option<&String>) -> PathBuf
