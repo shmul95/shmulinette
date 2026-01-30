@@ -18,6 +18,7 @@ pub struct TestCase {
 pub struct Shmuli {
     pub bin : String,
     pub builder : Option<String>,
+    pub separator: bool,
 }
 
 #[derive(Debug)]
@@ -27,7 +28,7 @@ impl FromStr for Shmuli {
     type Err = ShmulError;
     fn from_str(s: &str) -> Result<Self, Self::Err>
     {
-        const VAL: [&str; 2] = ["BUILDER", "BIN"];
+        const VAL: [&str; 3] = ["BUILDER", "BIN", "SEPARATOR" ];
 
         let key_val: Vec<(&str, &str)> = s.lines()
             .filter(|&l| l.contains('='))
@@ -46,7 +47,12 @@ impl FromStr for Shmuli {
             .find(|&&(k,_)| k == "BUILDER")
             .map(|&(_,v)| v.to_string());
 
-        Ok(Shmuli { bin, builder })
+        let separator = key_val.iter()
+            .find(|&&(k,_)| k == "SEPARATOR")
+            .map(|&(_,v)| v == "true" || v == "1")
+            .unwrap_or(false);
+
+        Ok(Shmuli { bin, builder, separator })
     }
 }
 
