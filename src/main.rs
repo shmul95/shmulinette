@@ -72,13 +72,13 @@ fn print_usage() {
     println!("Options:");
     println!("  -o, --only <names>     Run only the specified tests (comma-separated)");
     println!("  -e, --exclude <names>  Exclude the specified tests (comma-separated)");
-    println!("  -h, --help            Show this help message");
+    println!("  -h, --help             Show this help message");
     println!();
     println!("Examples:");
     println!("  shmulinette                           # Run all tests from tests.json");
     println!("  shmulinette 1_test                    # Run tests from 1_test.json");
-    println!("  shmulinette -o \"Simple Arithmetic\"    # Run only the Simple Arithmetic test");
-    println!("  shmulinette -e \"Date Formatting\"      # Run all except Date Formatting test");
+    println!("  shmulinette -o \"Simple Arithmetic\"  # Run only the Simple Arithmetic test");
+    println!("  shmulinette -e \"Date Formatting\"    # Run all except Date Formatting test");
 }
 
 fn main() {
