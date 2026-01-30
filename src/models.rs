@@ -1,6 +1,9 @@
 use std::str::FromStr;
 use serde::Deserialize;
 
+
+// --- json test ---
+
 #[derive(Deserialize,Debug)]
 pub struct TestCase {
     pub name : String,
@@ -9,22 +12,12 @@ pub struct TestCase {
     pub status : i32,
 }
 
+// --- shmulifile ---
+
 #[derive(Debug)]
 pub struct Shmuli {
     pub bin : String,
     pub builder : Option<String>,
-}
-
-#[derive(Debug,Clone)]
-pub enum CLIArgsOption {
-    Only(Vec<String>),
-    Exclude(Vec<String>),
-}
-
-#[derive(Debug,Clone)]
-pub struct CLIArgs {
-    pub path: Option<String>,
-    pub option: Option<CLIArgsOption>,
 }
 
 #[derive(Debug)]
@@ -54,5 +47,29 @@ impl FromStr for Shmuli {
             .map(|&(_,v)| v.to_string());
 
         Ok(Shmuli { bin, builder })
+    }
+}
+
+// --- args parsing ---
+
+#[derive(Debug,Clone)]
+pub enum CLIArgsOption {
+    Only(Vec<String>),
+    Exclude(Vec<String>),
+}
+
+#[derive(Debug,Clone)]
+pub struct CLIArgs {
+    pub path: Option<String>,
+    pub option: Option<CLIArgsOption>,
+}
+
+impl CLIArgsOption {
+    pub fn should_keep(&self, test_name: &str) -> bool
+    {
+        match self {
+            CLIArgsOption::Only(names) => names.is_empty() || names.contains(&test_name.to_string()),
+            CLIArgsOption::Exclude(names) => !names.contains(&test_name.to_string()),
+        }
     }
 }
