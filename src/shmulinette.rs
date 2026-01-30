@@ -10,6 +10,11 @@ use crate::models::{Shmuli,TestCase};
 pub fn shmulinette(shmuli: Shmuli, tests: Vec<TestCase>)
 {
     build(shmuli.builder);
+
+    match run_tests(tests) {
+        Ok(_) => println!("\x1b[32mAll tests pass\x1b[0m"),
+        Err(e) => println!("\x1b[31mSome issues with your code\x1b[0m\n{}", e),
+    };
 }
 
 fn get_shell() -> (&'static str, &'static str)
@@ -43,16 +48,21 @@ fn build(build_cmd: Option<String>)
     }
 }
 
-fn run_tests(bin: String, tests: Vec<TestCase>) -> Result<(), String>
+fn run_tests(tests: Vec<TestCase>) -> Result<(), String>
 {
     let failures: Vec<String> = tests
         .into_par_iter()
-        .filter_map(|test| run_test(&bin, &test))
+        .filter_map(|test| run_test(&test))
         .collect();
-    todo!()
+
+    if failures.is_empty() {
+        Ok(())
+    } else {
+        Err(failures.join("\n\n"))
+    }
 }
 
-fn run_test(bin: &String, test: &TestCase) -> Option<String>
+fn run_test(test: &TestCase) -> Option<String>
 {
     let (shell, arg) = get_shell();
     handle_result(
