@@ -28,7 +28,7 @@ impl FromStr for Shmuli {
     type Err = ShmulError;
     fn from_str(s: &str) -> Result<Self, Self::Err>
     {
-        const VAL: [&str; 3] = ["BUILDER", "BIN", "SEPARATOR" ];
+        const VAL: [&str; 3] = ["BUILD", "BIN", "SEPARATOR" ];
 
         let key_val: Vec<(&str, &str)> = s.lines()
             .filter(|&l| l.contains('='))
@@ -44,7 +44,7 @@ impl FromStr for Shmuli {
             .ok_or(ShmulError)?;
 
         let builder = key_val.iter()
-            .find(|&&(k,_)| k == "BUILDER")
+            .find(|&&(k,_)| k == "BUILD")
             .map(|&(_,v)| v.to_string());
 
         let separator = key_val.iter()

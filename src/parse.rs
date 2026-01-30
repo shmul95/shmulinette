@@ -99,7 +99,7 @@ mod tests {
     // --- Tests for Shmuli Parsing ---
     #[test]
     fn test_parse_shmuli_logic() {
-        let content = "BUILDER=cargo build\nBIN=cargo run";
+        let content = "BUILD=cargo build\nBIN=cargo run";
         let parsed: Shmuli = content.parse().expect("Valid Shmulinette format");
         
         assert_eq!(parsed.bin, "cargo run");
@@ -109,7 +109,7 @@ mod tests {
     #[test]
     fn test_parse_shmuli_no_builder() {
         let content = "BIN=./my_binary";
-        let parsed: Shmuli = content.parse().expect("Should work without BUILDER");
+        let parsed: Shmuli = content.parse().expect("Should work without BUILD");
         
         assert_eq!(parsed.bin, "./my_binary");
         assert!(parsed.builder.is_none());
