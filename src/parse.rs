@@ -1,5 +1,4 @@
 use std::env::{args,current_exe,current_dir};
-use std::fmt::format;
 use std::fs::File;
 use std::path::PathBuf;
 use std::io::BufReader;
