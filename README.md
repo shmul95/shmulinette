@@ -29,7 +29,7 @@ shmulinette [test_file] [options]
 > [!TIP]
 > **Keep it updated:** If you have installed the profile, stay up to date with the latest features by running:
 > `nix profile upgrade 0` (or the specific index of the package).
-> to see indexes run `nix progile list`
+> to see indexes run `nix profile list`
 
 * `[test_file]`: The name of your test configuration (the `.json` extension is optional).
 * `-o, --only [test_names]`: Run only specific tests from the file.
