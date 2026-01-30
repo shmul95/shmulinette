@@ -12,8 +12,5 @@ fn main() {
     let shmuli: Shmuli = parse_shmuli();
     let tests: Vec<TestCase> = parse_json(&args, &shmuli);
 
-    dbg!(&args);
-    dbg!(&shmuli);
-
     shmulinette(shmuli, tests);
 }
