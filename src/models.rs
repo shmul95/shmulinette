@@ -1,10 +1,58 @@
+use std::str::FromStr;
 use serde::Deserialize;
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize,Debug)]
 pub struct TestCase {
-    pub name: String,
-    pub command: String,
-    pub result: String,
-    pub status: u32,
+    pub name : String,
+    pub command : String,
+    pub result : String,
+    pub status : i32,
 }
 
+#[derive(Debug)]
+pub struct Shmuli {
+    pub bin : String,
+    pub builder : Option<String>,
+}
+
+#[derive(Debug,Clone)]
+pub enum ArgsOption {
+    Only(Vec<String>),
+    Exclude(Vec<String>),
+}
+
+#[derive(Debug,Clone)]
+pub struct Args {
+    pub path: Option<String>,
+    pub option: Option<ArgsOption>,
+}
+
+#[derive(Debug)]
+pub struct ShmulError;
+
+impl FromStr for Shmuli {
+    type Err = ShmulError;
+    fn from_str(s: &str) -> Result<Self, Self::Err>
+    {
+        const VAL: [&str; 2] = ["BUILDER", "BIN"];
+
+        let key_val: Vec<(&str, &str)> = s.lines()
+            .filter(|&l| l.contains('='))
+            .filter(|&l| !l.trim().is_empty())
+            .map(|x| x.split_once('=').unwrap())
+            .map(|(k,v)| (k.trim(), v.trim()))
+            .filter(|(k,_)| VAL.contains(k))
+            .collect();
+
+        let bin = key_val.iter()
+            .find(|&&(k,_)| k == "BIN")
+            .map(|&(_,v)| v.to_string())
+            .ok_or(ShmulError)?;
+
+        let builder = key_val.iter()
+            .find(|&&(k,_)| k == "BUILDER")
+            .map(|&(_,v)| v.to_string());
+
+        Ok(Shmuli { bin, builder })
+    }
+}
