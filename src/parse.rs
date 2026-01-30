@@ -1,4 +1,5 @@
 use std::env::{args,current_exe,current_dir};
+use std::fmt::format;
 use std::fs::File;
 use std::path::PathBuf;
 use std::io::BufReader;
@@ -31,7 +32,7 @@ fn is_option(act: Option<&String>, remaining: Option<&[String]>) -> Option<CLIAr
     }
 }
 
-pub fn parse_json(arg: CLIArgs) -> Vec<TestCase>
+pub fn parse_json(arg: &CLIArgs, shmuli: &Shmuli) -> Vec<TestCase>
 {
     let path: PathBuf = find_path(arg.path.as_ref());
     let file = File::open(&path)
@@ -45,6 +46,18 @@ pub fn parse_json(arg: CLIArgs) -> Vec<TestCase>
             .as_ref()
             .unwrap()
             .should_keep(&test.name))
+        .map(|mut test| {
+            let replacement = format!(
+                    "{} {}",
+                    shmuli.bin,
+                    if shmuli.separator { "--" }
+                    else { "" }
+                );
+            
+            test.command = test.command
+                .replace("@BIN", replacement.trim());
+            test
+        })
         .collect()
 }
 

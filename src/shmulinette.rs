@@ -59,7 +59,7 @@ fn run_test(bin: &String, test: &TestCase) -> Option<String>
         test,
         Command::new(shell)
             .arg(arg)
-            .arg(bin)
+            .arg(&test.command)
             .output()
     )
 }
@@ -70,7 +70,6 @@ fn handle_result(test: &TestCase, output: io::Result<Output>) -> Option<String> 
             let actual = String::from_utf8_lossy(&out.stdout).trim().to_string();
             let exit_status = out.status.code().unwrap_or(-1) as u32;
             
-            // Check both result and status
             let result_matches = actual == test.result.trim();
             let status_matches = exit_status == test.status;
             

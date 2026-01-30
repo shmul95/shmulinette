@@ -9,8 +9,8 @@ use shmulinette::shmulinette;
 fn main() {
     let args: CLIArgs = parse_args();
 
-    let tests: Vec<TestCase> = parse_json(args.clone());
     let shmuli: Shmuli = parse_shmuli();
+    let tests: Vec<TestCase> = parse_json(&args, &shmuli);
 
     dbg!(&args);
     dbg!(&shmuli);
