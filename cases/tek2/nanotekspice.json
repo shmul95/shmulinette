@@ -1,0 +1,8 @@
+[
+    {
+        "name" : "unique test",
+        "command" : "@BIN -h",
+        "result" : "Usage: ./nanotekspice [file] [option]",
+        "status" : 0
+    }
+]

@@ -32,6 +32,7 @@ shmulinette [test_file] [options]
 > to see indexes run `nix profile list`
 
 * `[test_file]`: The name of your test configuration (the `.json` extension is optional).
+* If you have no tests.json try to use some of the repo's test cases, like `tek2/nanotekspice`
 * `-o, --only [test_names]`: Run only specific tests from the file.
 * `-e, --exclude [test_names]`: Skip specific tests during execution.
 
@@ -62,3 +63,36 @@ shmulinette [test_file] [options]
                 |  (Parallel Workers + Output)   |
                 +--------------------------------+
 ```
+
+## Shmulifile
+
+Shmulinette looks for a `Shmulifile` in your current directory to understand how to interact with your project. It currently supports 3 parameters:
+
+```ini
+BUILD=cargo build
+BIN=cargo run
+SEPARATOR=true
+
+```
+
+* **`BUILD`**: The command used to compile your project. If omitted, the build phase is skipped.
+* **`BIN`**: The path to the binary or the execution command.
+* **`SEPARATOR`**: Set to `true` if your binary requires a `--` to pass arguments (e.g., `cargo run -- [args]`). Defaults to `false`.
+
+## Json Test File
+
+Tests are defined in JSON format. Each test case follows this structure:
+
+```json
+{
+    "name": "example_test",
+    "command": "@BIN -h",
+    "result": "Usage: ./my_bin [options]",
+    "status": 0
+}
+
+```
+
+* **`@BIN`**: This placeholder is automatically replaced by the `BIN` and `SEPARATOR` defined in your `Shmulifile`.
+* **`status`**: The expected exit code of the process (e.g., `0` for success).
+
