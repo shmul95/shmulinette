@@ -9,7 +9,7 @@ pub struct TestCase {
     pub name : String,
     pub command : String,
     pub result : String,
-    pub status : i32,
+    pub status : u32,
 }
 
 // --- shmulifile ---
