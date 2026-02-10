@@ -52,9 +52,12 @@ pub fn parse_json(arg: &CLIArgs, shmuli: &Shmuli) -> Vec<TestCase>
                 if shmuli.separator { "--" }
                 else { "" }
             );
-            test.command = test.command
-                .replace("@BIN", replacement.trim());
-                .replace("@DATA", shmuli.data.trim());
+
+            test.command = test.command.replace("@BIN", replacement.trim());
+            if test.command.contains("@DATA") {
+                let data = shmuli.data.as_ref().expect("no DATA in Shmulifile");
+                test.command = test.command.replace("@DATA", data.trim());
+            }
             test
         })
         .collect()
