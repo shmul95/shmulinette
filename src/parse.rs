@@ -47,14 +47,14 @@ pub fn parse_json(arg: &CLIArgs, shmuli: &Shmuli) -> Vec<TestCase>
             .should_keep(&test.name))
         .map(|mut test| {
             let replacement = format!(
-                    "{} {}",
-                    shmuli.bin,
-                    if shmuli.separator { "--" }
-                    else { "" }
-                );
-            
+                "{} {}",
+                shmuli.bin,
+                if shmuli.separator { "--" }
+                else { "" }
+            );
             test.command = test.command
                 .replace("@BIN", replacement.trim());
+                .replace("@DATA", shmuli.data.trim());
             test
         })
         .collect()
