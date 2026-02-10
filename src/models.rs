@@ -55,7 +55,7 @@ impl FromStr for Shmuli {
 
         let data = key_val
             .find(|&&(k, _)| k == "DATA")
-            .map(|&-_, v)| v.to_string())
+            .map(|&_, v)| v.to_string())
             .unwrap_or(false)
 
         Ok(Shmuli { bin, builder, separator, data})
@@ -85,3 +85,5 @@ impl CLIArgsOption {
         }
     }
 }
+
+
