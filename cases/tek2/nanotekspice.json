@@ -1,8 +1,608 @@
 [
     {
-        "name" : "unique test",
-        "command" : "@BIN -h",
-        "result" : "Usage: ./nanotekspice [file] [option]",
+        "name" : "RIGOR: Invalid command handling",
+        "command" : "echo -e \"invalid_command\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > tick: 0\ninput(s):\n  in_1: U\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Invalid input value",
+        "command" : "echo -e \"in_1 = 999\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> Invalid assignment \\s*([a-zA-Z0-9_]+)\\s*=\\s*([01U])\\s*\n> > tick: 1\ninput(s):\n  in_1: U\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Invalid input character",
+        "command" : "echo -e \"in_1 = x\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> Invalid assignment \\s*([a-zA-Z0-9_]+)\\s*=\\s*([01U])\\s*\n> > tick: 1\ninput(s):\n  in_1: U\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Nonexistent pin assignment",
+        "command" : "echo -e \"nonexistent_pin = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> Unknown chipset\n> > tick: 1\ninput(s):\n  in_1: U\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Empty input stream",
+        "command" : "echo -e \"\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> >",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Stress test - many simulation cycles",
+        "command" : "echo -e \"simulate\nsimulate\nsimulate\nsimulate\nsimulate\nsimulate\nsimulate\nsimulate\nsimulate\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > > > > > > > > > tick: 10\ninput(s):\n  in_1: U\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: OR gate truth table - 00",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: 0\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: OR gate truth table - 01",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: 1\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: OR gate truth table - 10",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: 0\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: OR gate truth table - 11",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: 1\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: AND gate truth table - 00",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: 0\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: AND gate truth table - 01",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: 1\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: AND gate truth table - 10",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: 0\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: AND gate truth table - 11",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: 1\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: XOR gate truth table - 00",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/xor.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: 0\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: XOR gate truth table - 01",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/xor.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: 1\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: XOR gate truth table - 10",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/xor.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: 0\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: XOR gate truth table - 11",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/xor.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: 1\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: NOT gate truth table - 0",
+        "command" : "echo -e \"in = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/not.nts",
+        "result" : "> > > tick: 1\ninput(s):\n  in: 0\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: NOT gate truth table - 1",
+        "command" : "echo -e \"in = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/not.nts",
+        "result" : "> > > tick: 1\ninput(s):\n  in: 1\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Undefined behavior - OR with U inputs",
+        "command" : "echo -e \"simulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > tick: 1\ninput(s):\n  in_1: U\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Undefined behavior - AND with U inputs",
+        "command" : "echo -e \"simulate\ndisplay\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> > tick: 1\ninput(s):\n  in_1: U\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Undefined behavior - NOT with U input",
+        "command" : "echo -e \"simulate\ndisplay\" | @BIN @DATA/nts_single/not.nts",
+        "result" : "> > tick: 1\ninput(s):\n  in: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Mixed input states - OR 0U",
+        "command" : "echo -e \"in_1 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Mixed input states - OR 1U",
+        "command" : "echo -e \"in_1 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: U\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Mixed input states - AND 0U",
+        "command" : "echo -e \"in_1 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: U\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Mixed input states - AND 1U",
+        "command" : "echo -e \"in_1 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: State persistence test",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 0\nsimulate\ndisplay\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: 0\noutput(s):\n  out: 1\n> > tick: 2\ninput(s):\n  in_1: 1\n  in_2: 0\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Dynamic input change",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 0\nsimulate\ndisplay\nin_1 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: 0\noutput(s):\n  out: 0\n> > > tick: 2\ninput(s):\n  in_1: 1\n  in_2: 0\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Complex circuit integration test",
+        "command" : "echo -e \"in_a = 1\nin_b = 1\nin_c = 0\nsimulate\ndisplay\nin_b = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_advanced/and-or-not.nts",
+        "result" : "> > > > > tick: 1\ninput(s):\n  in_a: 1\n  in_b: 1\n  in_c: 0\noutput(s):\n  out: 0\n> > > tick: 2\ninput(s):\n  in_a: 1\n  in_b: 0\n  in_c: 0\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Rapid input transitions",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 1\nsimulate\nin_1 = 0\nin_2 = 0\nsimulate\nin_1 = 1\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > > > > > > > > tick: 3\ninput(s):\n  in_1: 1\n  in_2: 0\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Clock signal behavior",
+        "command" : "echo -e \"cl = 0\nsimulate\ncl = 1\nsimulate\ncl = 0\nsimulate\ncl = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/clock.nts",
+        "result" : "> > > > > > > > > tick: 4\ninput(s):\n  cl: 1\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Sequential logic - cascaded gates",
+        "command" : "echo -e \"in_a = 1\nin_b = 1\nin_c = 1\nsimulate\ndisplay\nin_a = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_advanced/and-or-not.nts",
+        "result" : "> > > > > tick: 1\ninput(s):\n  in_a: 1\n  in_b: 1\n  in_c: 1\noutput(s):\n  out: 0\n> > > tick: 2\ninput(s):\n  in_a: 0\n  in_b: 1\n  in_c: 1\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Boundary value - multiple U states",
+        "command" : "echo -e \"simulate\nsimulate\nsimulate\ndisplay\" | @BIN @DATA/nts_single/xor.nts",
+        "result" : "> > > > tick: 3\ninput(s):\n  in_1: U\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Logic consistency - NOT double inversion",
+        "command" : "echo -e \"in = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/not.nts",
+        "result" : "> > > tick: 1\ninput(s):\n  in: 1\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Fan-out behavior - OR gate output",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 0\nsimulate\ndisplay\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: 0\noutput(s):\n  out: 1\n> > > tick: 2\ninput(s):\n  in_1: 1\n  in_2: 1\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Power-on state - all gates undefined",
+        "command" : "echo -e \"display\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> tick: 0\ninput(s):\n  in_1: U\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Combinatorial exhaustive - 3-input AND simulation",
+        "command" : "echo -e \"in_a = 0\nin_b = 0\nin_c = 0\nsimulate\ndisplay\nin_a = 1\nin_b = 1\nin_c = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_advanced/and.nts",
+        "result" : "> > > > > tick: 1\ninput(s):\n  in_a: 0\n  in_b: 0\n  in_c: 0\n  in_d: U\n  in_e: U\noutput(s):\n  out: 0\n> > > > > tick: 2\ninput(s):\n  in_a: 1\n  in_b: 1\n  in_c: 1\n  in_d: U\n  in_e: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Memory persistence - TRUE gate stability",
+        "command" : "echo -e \"simulate\nsimulate\nsimulate\nsimulate\nsimulate\ndisplay\" | @BIN @DATA/nts_single/true.nts",
+        "result" : "> > > > > > tick: 5\ninput(s):\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Memory persistence - FALSE gate stability",
+        "command" : "echo -e \"simulate\nsimulate\nsimulate\nsimulate\nsimulate\ndisplay\" | @BIN @DATA/nts_single/false.nts",
+        "result" : "> > > > > > tick: 5\ninput(s):\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Input validation - mixed case commands",
+        "command" : "echo -e \"IN_1 = 1\nSIMULATE\nDISPLAY\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> Unknown chipset\n> > >",
+        "status" : 0
+    },
+    {
+        "name" : "RIGOR: Simulation step boundary - tick 0 display",
+        "command" : "echo -e \"display\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> tick: 0\ninput(s):\n  in_1: U\n  in_2: U\noutput(s):\n  out: U\n> > tick: 1\ninput(s):\n  in_1: U\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "or gate",
+        "command" : "echo -e \"in_1 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: U\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "or gate - both inputs 0",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: 0\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "or gate - both inputs 1",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: 1\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "or gate - first input 0, second 1",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: 1\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "or gate - only second input",
+        "command" : "echo -e \"in_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > tick: 1\ninput(s):\n  in_1: U\n  in_2: 1\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "and gate - both inputs 0",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: 0\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "and gate - both inputs 1",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: 1\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "and gate - first input 1, second 0",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: 0\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "and gate - first input 0, second 1",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: 1\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "and gate - only first input",
+        "command" : "echo -e \"in_1 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "not gate - input 0",
+        "command" : "echo -e \"in = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/not.nts",
+        "result" : "> > > tick: 1\ninput(s):\n  in: 0\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "not gate - input 1",
+        "command" : "echo -e \"in = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/not.nts",
+        "result" : "> > > tick: 1\ninput(s):\n  in: 1\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "not gate - no input",
+        "command" : "echo -e \"simulate\ndisplay\" | @BIN @DATA/nts_single/not.nts",
+        "result" : "> > tick: 1\ninput(s):\n  in: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "xor gate - both inputs 0",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/xor.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: 0\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "xor gate - both inputs 1",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/xor.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: 1\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "xor gate - first input 1, second 0",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/xor.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 1\n  in_2: 0\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "xor gate - first input 0, second 1",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/xor.nts",
+        "result" : "> > > > tick: 1\ninput(s):\n  in_1: 0\n  in_2: 1\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "true gate - display",
+        "command" : "echo -e \"simulate\ndisplay\" | @BIN @DATA/nts_single/true.nts",
+        "result" : "> > tick: 1\ninput(s):\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "false gate - display",
+        "command" : "echo -e \"simulate\ndisplay\" | @BIN @DATA/nts_single/false.nts",
+        "result" : "> > tick: 1\ninput(s):\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "clock - single tick",
+        "command" : "echo -e \"simulate\ndisplay\" | @BIN @DATA/nts_single/clock.nts",
+        "result" : "> > tick: 1\ninput(s):\n  cl: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "clock - multiple ticks",
+        "command" : "echo -e \"simulate\nsimulate\nsimulate\ndisplay\" | @BIN @DATA/nts_single/clock.nts",
+        "result" : "> > > > tick: 3\ninput(s):\n  cl: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "input_output - basic test",
+        "command" : "echo -e \"input = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/input_output.nts",
+        "result" : "> Unknown chipset\n> > tick: 1\ninput(s):\n  in: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "input_output - toggle test",
+        "command" : "echo -e \"input = 0\nsimulate\ninput = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/input_output.nts",
+        "result" : "> Unknown chipset\n> > Unknown chipset\n> > tick: 2\ninput(s):\n  in: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4071 OR chip - all combinations",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4071_or.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> > tick: 1\ninput(s):\n  in_01: U\n  in_02: U\n  in_05: U\n  in_06: U\n  in_08: U\n  in_09: U\n  in_12: U\n  in_13: U\noutput(s):\n  out_03: U\n  out_04: U\n  out_10: U\n  out_11: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4081 AND chip - all combinations",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4081_and.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> > tick: 1\ninput(s):\n  in_01: U\n  in_02: U\n  in_05: U\n  in_06: U\n  in_08: U\n  in_09: U\n  in_12: U\n  in_13: U\noutput(s):\n  out_03: U\n  out_04: U\n  out_10: U\n  out_11: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4069 NOT chip - inversion test",
+        "command" : "echo -e \"in = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4069_not.nts",
+        "result" : "> Unknown chipset\n> > tick: 1\ninput(s):\n  in_01: U\n  in_03: U\n  in_05: U\n  in_09: U\n  in_11: U\n  in_13: U\noutput(s):\n  out_02: U\n  out_04: U\n  out_06: U\n  out_08: U\n  out_10: U\n  out_12: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4030 XOR chip - different inputs",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4030_xor.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> > tick: 1\ninput(s):\n  in_01: U\n  in_02: U\n  in_05: U\n  in_06: U\n  in_08: U\n  in_09: U\n  in_12: U\n  in_13: U\noutput(s):\n  out_03: U\n  out_04: U\n  out_10: U\n  out_11: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4011 NAND chip - basic test",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4011_nand.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> > tick: 1\ninput(s):\n  in_01: U\n  in_02: U\n  in_05: U\n  in_06: U\n  in_08: U\n  in_09: U\n  in_12: U\n  in_13: U\noutput(s):\n  out_03: U\n  out_04: U\n  out_10: U\n  out_11: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4001 NOR chip - basic test",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4001_nor.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> > tick: 1\ninput(s):\n  in_01: U\n  in_02: U\n  in_05: U\n  in_06: U\n  in_08: U\n  in_09: U\n  in_12: U\n  in_13: U\noutput(s):\n  out_03: U\n  out_04: U\n  out_10: U\n  out_11: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4013 flip-flop - clock edge",
+        "command" : "echo -e \"d = 1\nclk = 0\nsimulate\nclk = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4013_flipflop.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> > Unknown chipset\n> > tick: 2\ninput(s):\n  cl_1_clock: U\n  cl_2_clock: U\n  in_1_data: U\n  in_1_reset: U\n  in_1_set: U\n  in_2_data: U\n  in_2_reset: U\n  in_2_set: U\noutput(s):\n  out_1_q: 0\n  out_1_qb: 0\n  out_2_q: 0\n  out_2_qb: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4040 counter - increment test",
+        "command" : "echo -e \"clk = 0\nsimulate\nclk = 1\nsimulate\nclk = 0\nsimulate\nclk = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4040_counter.nts",
+        "result" : "> Unknown chipset\n> > Unknown chipset\n> > Unknown chipset\n> > Unknown chipset\n> > tick: 4\ninput(s):\n  cl_clock: U\n  in_reset: U\noutput(s):\n  out_00: U\n  out_01: U\n  out_02: U\n  out_03: U\n  out_04: U\n  out_05: U\n  out_06: U\n  out_07: U\n  out_08: U\n  out_09: U\n  out_10: U\n  out_11: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4017 Johnson counter - sequence test",
+        "command" : "echo -e \"clk = 0\nsimulate\nclk = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4017_johnson.nts",
+        "result" : "> Unknown chipset\n> > Unknown chipset\n> > tick: 2\ninput(s):\n  in_0: U\n  in_1: U\n  in_r: U\noutput(s):\n  out_0: 1\n  out_1: 0\n  out_2: 0\n  out_3: 0\n  out_4: 0\n  out_5: 0\n  out_6: 0\n  out_7: 0\n  out_8: 0\n  out_9: 0\n  out_s: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4094 shift register - shift test",
+        "command" : "echo -e \"data = 1\nclk = 0\nsimulate\nclk = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4094_shift.nts",
+        "result" : "> > Unknown chipset\n> > Unknown chipset\n> > tick: 2\ninput(s):\n  clock: U\n  data: 1\noutput(s):\n  out_0: U\n  out_1: U\n  out_2: U\n  out_3: U\n  out_4: U\n  out_5: U\n  out_6: U\n  out_7: U\n  out_qe: U\n  out_qs: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4512 selector - selection test",
+        "command" : "echo -e \"in_0 = 1\nin_1 = 0\nsel = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4512_selector.nts",
+        "result" : "> > > Unknown chipset\n> > tick: 1\ninput(s):\n  enable: U\n  in_0: 1\n  in_1: 0\n  in_2: U\n  in_3: U\n  in_4: U\n  in_5: U\n  in_6: U\n  in_7: U\n  in_a: U\n  in_b: U\n  in_c: U\n  inhibit: U\noutput(s):\n  out_data: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4514 decoder - decode test",
+        "command" : "echo -e \"a0 = 1\na1 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4514_decoder.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> > tick: 1\ninput(s):\n  in_0: U\n  in_1: U\n  in_2: U\n  in_3: U\n  inhibit: U\n  strobe: U\noutput(s):\n  out_00: U\n  out_01: U\n  out_02: U\n  out_03: U\n  out_04: U\n  out_05: U\n  out_06: U\n  out_07: U\n  out_08: U\n  out_09: U\n  out_10: U\n  out_11: U\n  out_12: U\n  out_13: U\n  out_14: U\n  out_15: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4008 adder - addition test",
+        "command" : "echo -e \"a0 = 1\nb0 = 1\nci = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4008_adder.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> Unknown chipset\n> > tick: 1\ninput(s):\n  in_a1: U\n  in_a2: U\n  in_a3: U\n  in_a4: U\n  in_b1: U\n  in_b2: U\n  in_b3: U\n  in_b4: U\n  in_c: U\noutput(s):\n  out_0: U\n  out_1: U\n  out_2: U\n  out_3: U\n  out_c: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "2716 ROM - read test",
+        "command" : "echo -e \"a0 = 0\na1 = 0\noe = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/2716_rom.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> Unknown chipset\n> > tick: 1\ninput(s):\n  addr_00: U\n  addr_01: U\n  addr_02: U\n  addr_03: U\n  addr_04: U\n  addr_05: U\n  addr_06: U\n  addr_07: U\n  addr_08: U\n  addr_09: U\n  addr_10: U\n  enable: U\n  read: U\noutput(s):\n  out_0: U\n  out_1: U\n  out_2: U\n  out_3: U\n  out_4: U\n  out_5: U\n  out_6: U\n  out_7: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4801 RAM - write then read",
+        "command" : "echo -e \"addr = 0\ndata = 1\nwe = 1\nsimulate\nwe = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4801_ram.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> Unknown chipset\n> > Unknown chipset\n> > tick: 2\ninput(s):\n  addr_0: U\n  addr_1: U\n  addr_2: U\n  addr_3: U\n  addr_4: U\n  addr_5: U\n  addr_6: U\n  addr_7: U\n  addr_8: U\n  addr_9: U\n  enable: U\n  in_0: U\n  in_1: U\n  in_2: U\n  in_3: U\n  in_4: U\n  in_5: U\n  in_6: U\n  in_7: U\n  read: U\n  write: U\noutput(s):\n  out_0: U\n  out_1: U\n  out_2: U\n  out_3: U\n  out_4: U\n  out_5: U\n  out_6: U\n  out_7: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "logger - logging test",
+        "command" : "echo -e \"input = 1\nsimulate\ninput = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/logger.nts",
+        "result" : "> Unknown chipset\n> > Unknown chipset\n> > tick: 2\ninput(s):\n  clock: U\n  in_001: U\n  in_002: U\n  in_004: U\n  in_008: U\n  in_016: U\n  in_032: U\n  in_064: U\n  in_128: U\n  inhibit: U\noutput(s):\n>",
+        "status" : 0
+    },
+    {
+        "name" : "advanced and-or-not circuit",
+        "command" : "echo -e \"in_a = 1\nin_b = 0\nin_c = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_advanced/and-or-not.nts",
+        "result" : "> > > > > tick: 1\ninput(s):\n  in_a: 1\n  in_b: 0\n  in_c: 1\noutput(s):\n  out: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "advanced and gate",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_advanced/and.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> > tick: 1\ninput(s):\n  in_a: U\n  in_b: U\n  in_c: U\n  in_d: U\n  in_e: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "advanced altered counter",
+        "command" : "echo -e \"clk = 0\nsimulate\nclk = 1\nsimulate\nclk = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_advanced/altered-counter.nts",
+        "result" : "> Unknown chipset\n> > Unknown chipset\n> > Unknown chipset\n> > tick: 3\ninput(s):\n  cl_clock: U\n  in_reset: U\noutput(s):\n  out_1: U\n  out_2: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "or gate - multiple simulations",
+        "command" : "echo -e \"in_1 = 1\nsimulate\nsimulate\nsimulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > > > > tick: 3\ninput(s):\n  in_1: 1\n  in_2: U\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "and gate - multiple simulations",
+        "command" : "echo -e \"in_1 = 1\nin_2 = 1\nsimulate\nsimulate\ndisplay\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> > > > > tick: 2\ninput(s):\n  in_1: 1\n  in_2: 1\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "not gate - multiple toggles",
+        "command" : "echo -e \"in = 0\nsimulate\nin = 1\nsimulate\nin = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/not.nts",
+        "result" : "> > > > > > > tick: 3\ninput(s):\n  in: 0\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "xor gate - alternating pattern",
+        "command" : "echo -e \"in_1 = 0\nin_2 = 1\nsimulate\nin_1 = 1\nin_2 = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/xor.nts",
+        "result" : "> > > > > > > tick: 2\ninput(s):\n  in_1: 1\n  in_2: 0\noutput(s):\n  out: 1\n>",
+        "status" : 0
+    },
+    {
+        "name" : "clock - extended sequence",
+        "command" : "echo -e \"simulate\nsimulate\nsimulate\nsimulate\nsimulate\ndisplay\" | @BIN @DATA/nts_single/clock.nts",
+        "result" : "> > > > > > tick: 5\ninput(s):\n  cl: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4013 flip-flop - reset test",
+        "command" : "echo -e \"d = 1\nclk = 1\nreset = 0\nsimulate\nreset = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4013_flipflop.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> Unknown chipset\n> > Unknown chipset\n> > tick: 2\ninput(s):\n  cl_1_clock: U\n  cl_2_clock: U\n  in_1_data: U\n  in_1_reset: U\n  in_1_set: U\n  in_2_data: U\n  in_2_reset: U\n  in_2_set: U\noutput(s):\n  out_1_q: 0\n  out_1_qb: 0\n  out_2_q: 0\n  out_2_qb: 0\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4040 counter - reset and count",
+        "command" : "echo -e \"reset = 1\nsimulate\nreset = 0\nclk = 1\nsimulate\nclk = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4040_counter.nts",
+        "result" : "> Unknown chipset\n> > Unknown chipset\n> Unknown chipset\n> > Unknown chipset\n> > tick: 3\ninput(s):\n  cl_clock: U\n  in_reset: U\noutput(s):\n  out_00: U\n  out_01: U\n  out_02: U\n  out_03: U\n  out_04: U\n  out_05: U\n  out_06: U\n  out_07: U\n  out_08: U\n  out_09: U\n  out_10: U\n  out_11: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4094 shift register - multiple shifts",
+        "command" : "echo -e \"data = 1\nclk = 1\nsimulate\ndata = 0\nclk = 0\nsimulate\nclk = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4094_shift.nts",
+        "result" : "> > Unknown chipset\n> > > Unknown chipset\n> > Unknown chipset\n> > tick: 3\ninput(s):\n  clock: U\n  data: 0\noutput(s):\n  out_0: U\n  out_1: U\n  out_2: U\n  out_3: U\n  out_4: U\n  out_5: U\n  out_6: U\n  out_7: U\n  out_qe: U\n  out_qs: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4512 selector - switch selection",
+        "command" : "echo -e \"in_0 = 1\nin_1 = 0\nsel = 0\nsimulate\nsel = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4512_selector.nts",
+        "result" : "> > > Unknown chipset\n> > Unknown chipset\n> > tick: 2\ninput(s):\n  enable: U\n  in_0: 1\n  in_1: 0\n  in_2: U\n  in_3: U\n  in_4: U\n  in_5: U\n  in_6: U\n  in_7: U\n  in_a: U\n  in_b: U\n  in_c: U\n  inhibit: U\noutput(s):\n  out_data: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4514 decoder - multiple addresses",
+        "command" : "echo -e \"a0 = 0\na1 = 0\nsimulate\na0 = 1\nsimulate\na1 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4514_decoder.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> > Unknown chipset\n> > Unknown chipset\n> > tick: 3\ninput(s):\n  in_0: U\n  in_1: U\n  in_2: U\n  in_3: U\n  inhibit: U\n  strobe: U\noutput(s):\n  out_00: U\n  out_01: U\n  out_02: U\n  out_03: U\n  out_04: U\n  out_05: U\n  out_06: U\n  out_07: U\n  out_08: U\n  out_09: U\n  out_10: U\n  out_11: U\n  out_12: U\n  out_13: U\n  out_14: U\n  out_15: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4008 adder - carry test",
+        "command" : "echo -e \"a0 = 1\nb0 = 1\nci = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4008_adder.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> Unknown chipset\n> > tick: 1\ninput(s):\n  in_a1: U\n  in_a2: U\n  in_a3: U\n  in_a4: U\n  in_b1: U\n  in_b2: U\n  in_b3: U\n  in_b4: U\n  in_c: U\noutput(s):\n  out_0: U\n  out_1: U\n  out_2: U\n  out_3: U\n  out_c: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "2716 ROM - address sequence",
+        "command" : "echo -e \"a0 = 0\na1 = 0\noe = 1\nsimulate\na0 = 1\nsimulate\na1 = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/2716_rom.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> Unknown chipset\n> > Unknown chipset\n> > Unknown chipset\n> > tick: 3\ninput(s):\n  addr_00: U\n  addr_01: U\n  addr_02: U\n  addr_03: U\n  addr_04: U\n  addr_05: U\n  addr_06: U\n  addr_07: U\n  addr_08: U\n  addr_09: U\n  addr_10: U\n  enable: U\n  read: U\noutput(s):\n  out_0: U\n  out_1: U\n  out_2: U\n  out_3: U\n  out_4: U\n  out_5: U\n  out_6: U\n  out_7: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "4801 RAM - multiple operations",
+        "command" : "echo -e \"addr = 0\ndata = 1\nwe = 1\nsimulate\naddr = 1\ndata = 0\nsimulate\nwe = 0\nsimulate\ndisplay\" | @BIN @DATA/nts_single/4801_ram.nts",
+        "result" : "> Unknown chipset\n> Unknown chipset\n> Unknown chipset\n> > Unknown chipset\n> Unknown chipset\n> > Unknown chipset\n> > tick: 3\ninput(s):\n  addr_0: U\n  addr_1: U\n  addr_2: U\n  addr_3: U\n  addr_4: U\n  addr_5: U\n  addr_6: U\n  addr_7: U\n  addr_8: U\n  addr_9: U\n  enable: U\n  in_0: U\n  in_1: U\n  in_2: U\n  in_3: U\n  in_4: U\n  in_5: U\n  in_6: U\n  in_7: U\n  read: U\n  write: U\noutput(s):\n  out_0: U\n  out_1: U\n  out_2: U\n  out_3: U\n  out_4: U\n  out_5: U\n  out_6: U\n  out_7: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "input_output - sequence test",
+        "command" : "echo -e \"input = 1\nsimulate\ninput = 0\nsimulate\ninput = 1\nsimulate\ndisplay\" | @BIN @DATA/nts_single/input_output.nts",
+        "result" : "> Unknown chipset\n> > Unknown chipset\n> > Unknown chipset\n> > tick: 3\ninput(s):\n  in: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "or gate - edge case undefined",
+        "command" : "echo -e \"simulate\ndisplay\" | @BIN @DATA/nts_single/or.nts",
+        "result" : "> > tick: 1\ninput(s):\n  in_1: U\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "and gate - edge case undefined",
+        "command" : "echo -e \"simulate\ndisplay\" | @BIN @DATA/nts_single/and.nts",
+        "result" : "> > tick: 1\ninput(s):\n  in_1: U\n  in_2: U\noutput(s):\n  out: U\n>",
+        "status" : 0
+    },
+    {
+        "name" : "xor gate - edge case undefined",
+        "command" : "echo -e \"simulate\ndisplay\" | @BIN @DATA/nts_single/xor.nts",
+        "result" : "> > tick: 1\ninput(s):\n  in_1: U\n  in_2: U\noutput(s):\n  out: U\n>",
         "status" : 0
     }
 ]
