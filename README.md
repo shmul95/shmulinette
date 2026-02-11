@@ -82,18 +82,6 @@ DATA=./res
 
 ## Makefile
 
-For simplicity you can add a rule in your `Makefile`:
-
-```Makefile
-shmuli: all
-    @nix run github:shmul95/shmulinette [-- tek2/nanotekspice | Nothing]
-```
-and just run:
-
-```sh
-make shmuli
-```
-
 For simplicity, you can add a rule to your `Makefile` to trigger tests immediately after compilation. This is especially useful for maintaining a fast development loop.
 
 ```makefile
