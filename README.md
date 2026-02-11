@@ -85,7 +85,7 @@ DATA=./res
 For simplicity, you can add a rule to your `Makefile` to trigger tests immediately after compilation. This is especially useful for maintaining a fast development loop.
 
 ```makefile
-shmuli:
+run_tests:
 	@nix run github:shmul95/shmulinette -- [test_file]
 ```
 
